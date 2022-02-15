@@ -13,21 +13,24 @@ const { cookie } = require("express/lib/response");
  * @param { req, res }
  * @returns JsonResponse
  */
-const home = async (req, res, next) => {
-  try {
-    // next() or
-      console.log("hellooooo")
-      const all_images = await UserModel.find()
-      res.render('main', { images : all_images });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message:
-        "We are having some error while completing your request. Please try again after some time.",
-      error: error
-    });
+ const index = async(req, res, next) => {
+  try{
+   // next() or
+   return res.status(200).json({
+     success: true,
+     message: "Data fetched successfully.",
+     data: {}
+   });
   }
-};
+  catch (error) {
+   return res.status(500).json({
+     success: false,
+     message:
+       "We are having some error while completing your request. Please try again after some time.",
+     error: error
+   });
+ }
+}
 
 /**
  * @api {post} /user Registration the User
@@ -111,9 +114,6 @@ const login = async (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
     const useremail = await UserModel.findOne({ email: email });
-    // console.log(password);
-    //  console.log(useremail);
-
     const isMatch = await bcrypt.compare(password, useremail.password);
 
     if (isMatch) {
@@ -141,7 +141,7 @@ const login = async (req, res, next) => {
  * @param { req, res }
  * @returns JsonResponse
  */
- const update = async (req, res, next) => {
+const update = async (req, res, next) => {
   try {
     // next() or
     return res.status(200).json({
@@ -185,7 +185,7 @@ const destroy = async (req, res, next) => {
  * Export as a single common js module
  */
 module.exports = {
-  home,
+  index,
   register,
   login,
   update,

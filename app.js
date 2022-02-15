@@ -9,7 +9,7 @@ const { ImageModel } = require("./models");
 const path = require("path");
 const routes = require("./routes");
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
@@ -25,7 +25,6 @@ app.engine(
 
 const static_path = path.join(__dirname, "./public");
 const Imagestatic_path = path.join(__dirname, "public/uploads");
-// console.log(static_path)
 app.use("/v1", routes);
 app.use(express.static(static_path));
 app.use(express.static(Imagestatic_path));
@@ -49,7 +48,6 @@ app.get("/homepage", async (req, res) => {
   all_images.exec(function(err, data){
     return res.render("home/homepage", { 
       data:data,
-      img :console.log(data)
     })
   })
 });

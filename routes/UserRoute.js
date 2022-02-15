@@ -6,7 +6,7 @@ const { Validations } = require("../middlewares");
 const uploadImage = require("../middlewares/multer");
 const { UserValidations } = require("../validations");
 
-router.get('/', UserController.home)
+router.get('/', UserController.index)
 router.post(
     '/',
     UserValidations.SignupValidations,

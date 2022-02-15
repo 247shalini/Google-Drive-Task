@@ -6,15 +6,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const UserModelSchema = new Schema({
-  firstname: {type: String},
-  lastname: {type: String},
-  email: {type: String},
-  password: {type: String},
-  confirmpassword: {type: String},
+  firstname: {type: String, required:true},
+  lastname: {type: String, required:true},
+  email: {type: String, required:true},
+  password: {type: String, required:true},
+  confirmpassword: {type: String, required:true},
   tokens: [{token:{type:String}}],
-  // filename : {type : String},
-  // contentType : {type: String},
-  // imageBase64 : {type : String},
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });
@@ -22,11 +19,8 @@ const UserModelSchema = new Schema({
 // generate a Token
 UserModelSchema.methods.generateToken = async function(){
   try{
-    // console.log(this._id);
-    const token = jwt.sign({_id:this._id.toString()}, process.env.SECRET_KEY);
+    const token = jwt.sign({_id:this._id.toString()}, "mynameisshaliniagrawalgoogledrive");
     this.tokens = this.tokens.concat({token:token})
-    // console.log(token);
-    // await this.save();
     return token;
 
   }catch(error){

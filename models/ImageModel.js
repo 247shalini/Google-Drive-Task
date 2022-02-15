@@ -6,7 +6,6 @@ const Schema = mongoose.Schema;
 const ImageModelSchema = new Schema({
   
   image: {type: String,required: true},
-  // contentType : {type: String,required:true},
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });
