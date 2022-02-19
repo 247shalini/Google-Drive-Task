@@ -1,6 +1,8 @@
 require('dotenv').config();
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
-const Handlebars = require("handlebars")
+const Handlebars = require("handlebars");
+const bodyParser = require("body-parser");
+const nodemailer = require("nodemailer");
 const express = require("express");
 const { engine } = require("express-handlebars");
 const http = require("http");
@@ -8,11 +10,15 @@ const mongoose = require("mongoose");
 const { ImageModel } = require("./models");
 const path = require("path");
 const routes = require("./routes");
+const req = require('express/lib/request');
+const res = require('express/lib/response');
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(bodyParser.json());
 app.use(express.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({extended:false}));
 
 app.engine(
   ".hbs",
@@ -46,11 +52,15 @@ app.get("/login", async (req, res) => {
 app.get("/homepage", async (req, res) => {
   const all_images = ImageModel.find({})
   all_images.exec(function(err, data){
-    return res.render("home/homepage", { 
+    return res.render("home/homepage", {
       data:data,
     })
   })
 });
+
+// app.get("/", async(req,res) => {
+//   res.render("templates/requestImage");
+// });
 
 mongoose
   .connect("mongodb://localhost:27017/Registration")

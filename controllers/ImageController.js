@@ -1,28 +1,31 @@
 "use strict";
 const { uploadImage } = require("../middlewares/multer");
 const { ImageModel } = require("../models");
+const nodemailer = require("nodemailer");
+const { Email, AVAILABLE_TEMPLATES } = require("../utils/Email");
+
 /**
  * Get all record
  * @param { req, res }
  * @returns JsonResponse
  */
- const index = async(req, res, next) => {
-  try{
-   // next() or
-   return res.status(200).json({
-     success: true,
-     message: "Data fetched successfully.",
-     data: {}
-   });
-  }
+const index = async (req, res, next) => {
+  try {
+    const { email } = req.body
+    const emailClient = new Email();
+    emailClient.setTemplate(AVAILABLE_TEMPLATES.REQUEST);
+    emailClient.setBody();
+    emailClient.send(email);
+    return res.redirect("/homepage");
+}
   catch (error) {
-   return res.status(500).json({
-     success: false,
-     message:
-       "We are having some error while completing your request. Please try again after some time.",
-     error: error
-   });
- }
+  return res.status(500).json({
+    success: false,
+    message:
+      "We are having some error while completing your request. Please try again after some time.",
+    error: error
+  });
+}
 }
 
 /**
@@ -32,11 +35,11 @@ const { ImageModel } = require("../models");
  */
 const store = async (req, res, next) => {
   try {
-   const uploadFile = req.file.filename
-   await ImageModel.create({
-     image:uploadFile
-   })
-   return res.redirect('/homepage');
+    const uploadFile = req.file.filename
+    await ImageModel.create({
+      image: uploadFile
+    })
+    return res.redirect('/homepage');
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -52,16 +55,16 @@ const store = async (req, res, next) => {
  * @param { req, res }
  * @returns JsonResponse
  */
- const details = async(req, res, next) => {
-   try{
+const details = async (req, res, next) => {
+  try {
     // next() or
     return res.status(200).json({
       success: true,
       message: "Details fatched successfully.",
       data: {}
     });
-   }
-   catch (error) {
+  }
+  catch (error) {
     return res.status(500).json({
       success: false,
       message:
@@ -69,7 +72,7 @@ const store = async (req, res, next) => {
       error: error
     });
   }
- }
+}
 
 /**
  * update a record
@@ -115,8 +118,6 @@ const destroy = async (req, res, next) => {
     });
   }
 };
-
-
 
 /**
  * Export as a single common js module

@@ -1,6 +1,90 @@
 <style>
+    * {
+        box-sizing: border-box;
+    }
+
     body {
         background-color: rgba(228, 228, 228, 0.664);
+    }
+
+    .row {
+        justify-content: center;
+    }
+
+    .open-button {
+        border: none;
+        cursor: pointer;
+        bottom: 23px;
+        right: 28px;
+    }
+
+    .model-box {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        padding-top: 100px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    /* Add styles to the form container */
+    .form-container {
+        max-width: 402px;
+        height: 228px;
+        padding: 10px;
+        margin: auto;
+        background-color: white;
+    }
+
+    /* Full-width input fields */
+    .form-container input[type=email] {
+        width: 95%;
+        padding: 10px;
+        margin: 18px 0 19px 1px;
+        border: none;
+        background: #f1f1f1;
+    }
+
+    /* When the inputs get focus, do something */
+    .form-container input[type=email]:focus {
+        background-color: #ddd;
+        outline: none;
+    }
+
+    /* message style*/
+    #message{
+        color: green;
+        display: none;
+    }
+
+    /* The Button */
+    .send-btn {
+        width: 100px;
+        font-size: 18px;
+    }
+
+    .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    /* Add some hover effects to buttons */
+    .form-container .btn:hover,
+    .open-button:hover {
+        opacity: 1;
     }
 </style>
 
@@ -24,7 +108,7 @@
     <br><br>
 
     {{!-- display images --}}
-    <section class="mt-5">
+    <section>
         <div class="row">
             {{#each data}}
             <div class="col-3 m-3">
@@ -32,7 +116,8 @@
                     <img src='./uploads/{{this.image}}' style="width:285px;height: 200px;" />
                     <div class="card-body text-center">
                         <h5 class="card-title font-poppins">Image</h5>
-                        <a href="#" class="btn btn-info font-size-09 text-light">Share Image</a>
+                        <a href="#" class="button btn btn-info font-size-09 text-light open-button" onclick="openForm()"
+                            id="button">Share Image</a>
                     </div>
                 </div>
             </div>
@@ -41,3 +126,32 @@
     </section>
 </div>
 {{!-- /display images --}}
+
+{{!-- popup box --}}
+<div class="form-popup text-center model-box" id="myForm">
+    <form action="/v1/image/sendemail" method="POST" class="form-container">
+        <h5 class="mt-3 mx-2 d-flex justify-content-between">Send a Email : <span class="close mx-2"
+                onclick="closeForm()">&times;</span></h5>
+        <input type="email" placeholder="Enter Email" name="email" id="email" required>
+        <button type="submit" onclick="msgdisplay()" class="send-btn btn btn-info font-size-09 text-light">Send</button>
+        <br>
+         <div class="mt-2" id="message">
+            <p>Email sent successfully!!</p>
+        </div>
+    </form>
+</div>
+
+<script>
+    function openForm() {
+        document.getElementById("myForm").style.display = "block";
+    }
+
+    function msgdisplay() {
+        document.getElementById("message").style.display = "block";
+    }
+
+    function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+    }
+</script>
+{{!-- /popup box --}}

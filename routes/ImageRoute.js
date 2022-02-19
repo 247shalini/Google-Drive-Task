@@ -3,7 +3,7 @@ const { upload } = require('../middlewares')
 const router = express.Router()
 const { ImageController } = require('../controllers')
 
-router.get('/' , ImageController.index)
+router.post('/sendemail' , ImageController.index)
 router.post('/uploadmultiple',
  upload.upload , 
  ImageController.store)
