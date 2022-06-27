@@ -1,5 +1,4 @@
 "use strict";
-const { uploadImage } = require("../middlewares/multer");
 const { ImageModel } = require("../models");
 const nodemailer = require("nodemailer");
 const { Email, AVAILABLE_TEMPLATES } = require("../utils/Email");

@@ -51,16 +51,13 @@ app.get("/login", async (req, res) => {
 
 app.get("/homepage", async (req, res) => {
   const all_images = ImageModel.find({})
+  console.log(all_images)
   all_images.exec(function(err, data){
     return res.render("home/homepage", {
       data:data,
     })
   })
 });
-
-// app.get("/", async(req,res) => {
-//   res.render("templates/requestImage");
-// });
 
 mongoose
   .connect("mongodb://localhost:27017/Registration")
